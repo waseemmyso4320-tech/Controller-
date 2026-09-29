@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
     @Override public void onCreate(Bundle b) { super.onCreate(b); showHome(); }
 
     TextView tv(String s, int sp) { TextView t=new TextView(this); t.setText(s); t.setTextSize(sp); t.setTextColor(Color.DKGRAY); t.setPadding(16,12,16,12); return t; }
-    Button btn(String s) { Button b=new Button(this); b.setText(s); b.setAllCaps(false); return b; }
+    Button btn(String s) { Button b=new Button(this); b.setText(s); b.setAllCaps(false); b.setTextColor(Color.BLACK); b.setTextSize(16); return b; }
 
     void base(String title) {
         root=new LinearLayout(this); root.setOrientation(LinearLayout.VERTICAL); root.setBackgroundColor(Color.rgb(248,249,251));
