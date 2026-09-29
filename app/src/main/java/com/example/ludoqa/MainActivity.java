@@ -323,7 +323,7 @@ public class MainActivity extends Activity {
                 java.util.Enumeration<java.net.InetAddress> addresses = ni.getInetAddresses();
                 while (addresses.hasMoreElements()) {
                     java.net.InetAddress addr = addresses.nextElement();
-                    if (!addr.isLoopbackAddress() && addr instanceof java.net.Inet4Address) {
+                    if (!addr.isLoopbackAddress() && addr instanceof java.net.Inet4Address && addr.isSiteLocalAddress()) {
                         return addr.getHostAddress();
                     }
                 }
