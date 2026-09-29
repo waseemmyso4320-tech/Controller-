@@ -25,8 +25,20 @@ jobs:
       - name: Build Debug APK
         run: gradle :app:assembleDebug
 
+      - name: Create signing key
+        run: |
+          keytool -genkeypair             -keystore debug.keystore             -storepass android             -keypass android             -alias androiddebugkey             -keyalg RSA             -keysize 2048             -validity 10000             -dname "CN=Android Debug,O=Android,C=US"
+
+      - name: Sign APK
+        run: |
+          $ANDROID_HOME/build-tools/35.0.0/apksigner sign             --ks debug.keystore             --ks-pass pass:android             --key-pass pass:android             --out app/build/outputs/apk/debug/LudoQAController.apk             app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Verify APK
+        run: |
+          $ANDROID_HOME/build-tools/35.0.0/apksigner verify --verbose app/build/outputs/apk/debug/LudoQAController.apk
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: LudoQAController-debug
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/debug/LudoQAController.apk
