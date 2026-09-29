@@ -170,12 +170,12 @@ public class MainActivity extends Activity {
         status.setPadding(dp(18), dp(18), dp(18), dp(18));
         status.addView(text("RECEIVER STATUS", 12, MUTED, Typeface.BOLD));
         connectionText = text("●  Starting server…", 17, Color.rgb(255, 193, 7), Typeface.BOLD);
-        status.addView(connectionText, lp(LinearLayout.MATCH_PARENT, -2, 0, 7, 0, 0));
+        status.addView(connectionText, lp(LinearLayout.LayoutParams.MATCH_PARENT, -2, 0, 7, 0, 0));
         String ip = getLocalIp();
-        status.addView(text("IP ADDRESS", 11, MUTED, Typeface.BOLD), lp(LinearLayout.MATCH_PARENT, -2, 0, 18, 0, 0));
+        status.addView(text("IP ADDRESS", 11, MUTED, Typeface.BOLD), lp(LinearLayout.LayoutParams.MATCH_PARENT, -2, 0, 18, 0, 0));
         TextView ipView = text(ip, 24, TEXT, Typeface.BOLD);
         status.addView(ipView, lpWrap());
-        status.addView(text("Port  " + PORT + "   •   Tell the controller phone to connect to this IP.", 13, MUTED, Typeface.NORMAL), lp(LinearLayout.MATCH_PARENT, -2, 0, 5, 0, 0));
+        status.addView(text("Port  " + PORT + "   •   Tell the controller phone to connect to this IP.", 13, MUTED, Typeface.NORMAL), lp(LinearLayout.LayoutParams.MATCH_PARENT, -2, 0, 5, 0, 0));
         root.addView(status, lp(LinearLayout.LayoutParams.MATCH_PARENT, -2, 0, 0, 0, 16));
 
         LinearLayout result = card();
