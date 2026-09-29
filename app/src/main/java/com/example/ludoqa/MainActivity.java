@@ -267,14 +267,15 @@ public class MainActivity extends Activity {
         pool.execute(() -> {
             try {
                 closeClient();
-                client = new Socket(host, PORT);
+                client = new Socket();
+                client.connect(new java.net.InetSocketAddress(host, PORT), 5000);
                 clientOut = client.getOutputStream();
                 runOnUiThread(() -> {
                     setStatus("●  Connected", ACCENT);
                     if (connectButton != null) connectButton.setText("CONNECTED");
                 });
             } catch (Exception e) {
-                runOnUiThread(() -> setStatus("●  Connection failed", Color.rgb(244, 67, 54)));
+                    runOnUiThread(() -> setStatus("● Connection failed: " + e.getClass().getSimpleName() + " - " + (e.getMessage() == null ? "no details" : e.getMessage()), Color.rgb(244, 67, 54)));
             }
         });
     }
@@ -315,14 +316,20 @@ public class MainActivity extends Activity {
 
     private String getLocalIp() {
         try {
-            WifiManager wm = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-            if (wm != null) {
-                WifiInfo info = wm.getConnectionInfo();
-                int ip = info.getIpAddress();
-                return String.format(Locale.US, "%d.%d.%d.%d", ip & 0xff, (ip >> 8) & 0xff, (ip >> 16) & 0xff, (ip >> 24) & 0xff);
+            java.util.Enumeration<java.net.NetworkInterface> interfaces = java.net.NetworkInterface.getNetworkInterfaces();
+            while (interfaces != null && interfaces.hasMoreElements()) {
+                java.net.NetworkInterface ni = interfaces.nextElement();
+                if (!ni.isUp() || ni.isLoopback()) continue;
+                java.util.Enumeration<java.net.InetAddress> addresses = ni.getInetAddresses();
+                while (addresses.hasMoreElements()) {
+                    java.net.InetAddress addr = addresses.nextElement();
+                    if (!addr.isLoopbackAddress() && addr instanceof java.net.Inet4Address) {
+                        return addr.getHostAddress();
+                    }
+                }
             }
         } catch (Exception ignored) {}
-        return "Unavailable — connect to Wi-Fi";
+        return "Unavailable";
     }
 
     private LinearLayout baseColumn() {
