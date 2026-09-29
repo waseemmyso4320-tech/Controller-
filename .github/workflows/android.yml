@@ -20,8 +20,12 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
       - name: Build Debug APK
         run: gradle :app:assembleDebug
-      - name: Upload APK
+      - name: Sign APK
+      run: |
+        $ANDROID_HOME/build-tools/35.0.0/apksigner sign --ks ~/.android/debug.keystore --ks-pass pass:android --key-pass pass:android --out app/build/outputs/apk/debug/app-debug-signed.apk app/build/outputs/apk/debug/app-debug.apk
+
+    - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: LudoQAController-debug
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/debug/app-debug-signed.apk
